@@ -137,6 +137,35 @@ namespace Sokoban.Desktop
             Content.Unload();
         }
 
+        private void HandleMainMenuKeys(KeyboardState keyboardState)
+        {
+            if (keyboardState.IsKeyDown(Keys.Up) && !previousState.IsKeyDown(Keys.Up))
+            {
+                mainMenu.SelectPrev();
+            }
+
+            if (keyboardState.IsKeyDown(Keys.Down) && !previousState.IsKeyDown(Keys.Down))
+            {
+                mainMenu.SelectNext();
+            }
+
+            if (keyboardState.IsKeyDown(Keys.Enter) && !previousState.IsKeyDown(Keys.Enter))
+            {
+                if (mainMenu.CurrentItem.Type == MenuItem.ItemType.Continue)
+                {
+                    gameState.CurrentState = GameState.State.Playing;
+                }
+                else if (mainMenu.CurrentItem.Type == MenuItem.ItemType.ShowHighScores)
+                {
+                    gameState.CurrentState = GameState.State.ScoresShowing;
+                }
+                else if (mainMenu.CurrentItem.Type == MenuItem.ItemType.Exit)
+                {
+                    Exit();
+                }
+            }
+        }
+
         private GameActionResult HandlePlayerMoveKeys(KeyboardState keyboardState)
         {
             if (keyboardState.IsKeyDown(Keys.Up) && !previousState.IsKeyDown(Keys.Up))
@@ -181,6 +210,10 @@ namespace Sokoban.Desktop
                 {
                     gameState.CurrentState = GameState.State.Playing;
                 }
+                else if (gameState.CurrentState == GameState.State.ScoresShowing)
+                {
+                    gameState.CurrentState = GameState.State.Paused;
+                }
             }
 
             if (gameState.CurrentState == GameState.State.Playing)
@@ -197,6 +230,10 @@ namespace Sokoban.Desktop
                     }
                 }
             }
+            else if (gameState.CurrentState == GameState.State.Paused)
+            {
+                HandleMainMenuKeys(keyboardState);
+            }
 
             base.Update(gameTime);
 
@@ -205,10 +242,20 @@ namespace Sokoban.Desktop
 
         private void DrawMenu()
         {
-
+            int y = 0;
+            foreach(var item in mainMenu)
+            {
+                spriteBatch.Draw(item.CurrentTexture,
+                                 new Rectangle(Window.ClientBounds.Width / 2 - item.CurrentTexture.Width / 2,
+                                               y,
+                                               item.CurrentTexture.Width,
+                                               item.CurrentTexture.Height),
+                                               Color.White);
+                y += item.CurrentTexture.Height;
+            }
         }
 
-        private void DrawWhenPlaying()
+        private void DrawMap(bool active)
         {
             /*var cellSize = Math.Min(Window.ClientBounds.Height / gameMap.Height,
                                     Window.ClientBounds.Width / gameMap.Width);*/
@@ -222,7 +269,7 @@ namespace Sokoban.Desktop
                                                    y + y * Constants.CellSize,
                                                    Constants.CellSize,
                                                    Constants.CellSize),
-                                     Color.White);
+                                     active ? Color.White : Color.CornflowerBlue);
                 }
             }
         }
@@ -239,7 +286,12 @@ namespace Sokoban.Desktop
 
             if (gameState.CurrentState == GameState.State.Playing)
             {
-                DrawWhenPlaying();
+                DrawMap(true);
+            }
+            else if (gameState.CurrentState == GameState.State.Paused)
+            {
+                DrawMap(false);
+                DrawMenu();
             }
 
             spriteBatch.End();

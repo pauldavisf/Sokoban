@@ -8,7 +8,7 @@ namespace Sokoban.Architecture
         MenuItem CurrentItem { get; }
         void AddItem(MenuItem menuItem);
 
-        void MoveNext();
-        void MovePrev();
+        void SelectNext();
+        void SelectPrev();
     }
 }

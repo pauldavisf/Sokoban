@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Sokoban.Architecture
 {
-    public class GameMenu : IGameMenu
+    public class GameMenu : IGameMenu, IEnumerable<MenuItem>
     {
         private List<MenuItem> items = new List<MenuItem>();
         private int currentItemIndex;
@@ -13,9 +14,21 @@ namespace Sokoban.Architecture
         public void AddItem(MenuItem menuItem)
         {
             items.Add(menuItem);
+
+            if (items.Count == 1)
+            {
+                currentItemIndex = 0;
+                CurrentItem = items[currentItemIndex];
+                CurrentItem.ChangeTextureType(MenuItem.TextureType.Selected);
+            }
         }
 
-        public void MoveNext()
+        public IEnumerator<MenuItem> GetEnumerator()
+        {
+            return items.GetEnumerator();
+        }
+
+        public void SelectNext()
         {
             if (items.Count > 0)
             {
@@ -28,7 +41,7 @@ namespace Sokoban.Architecture
             }
         }
 
-        public void MovePrev()
+        public void SelectPrev()
         {
             if (items.Count > 0)
             {
@@ -43,6 +56,11 @@ namespace Sokoban.Architecture
                 CurrentItem = items[currentItemIndex];
                 CurrentItem.ChangeTextureType(MenuItem.TextureType.Selected);
             }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
