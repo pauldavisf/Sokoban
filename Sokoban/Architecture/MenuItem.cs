@@ -12,6 +12,7 @@ namespace Sokoban.Architecture
             Continue,
             Replay,
             NextLevel,
+            Back,
             ShowHighScores,
             Exit
         }
@@ -55,8 +56,8 @@ namespace Sokoban.Architecture
 
         public MenuItem(ItemType type,
                         Texture2D defaultTexture,
-                        Texture2D inactiveTexture,
-                        Texture2D selectedTexture)
+                        Texture2D selectedTexture,
+                        Texture2D inactiveTexture)
         {
             Type = type;
             this.defaultTexture = defaultTexture;

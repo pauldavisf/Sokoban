@@ -10,6 +10,11 @@ namespace Sokoban.Architecture
 
         public MenuItem CurrentItem { get; private set; }
 
+        public void AddItem(MenuItem menuItem)
+        {
+            items.Add(menuItem);
+        }
+
         public void MoveNext()
         {
             if (items.Count > 0)

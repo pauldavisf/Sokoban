@@ -19,8 +19,70 @@ namespace Sokoban.Desktop
         private MoveController moveController;
         private KeyboardState previousState;
         private GameState gameState;
+        private GameMenu mainMenu;
+        private GameMenu scoresMenu;
+        private GameMenu nextLevelMenu;
 
-        private Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
+        private string[] menuItemLabels = { "continue", "scores", "exit", "back", "replay" };
+
+        private Dictionary<string, Texture2D> gameObjectTextures = new Dictionary<string, Texture2D>();
+        private Dictionary<string, Texture2D[]> menuTextures = new Dictionary<string, Texture2D[]>();
+
+        private void InitGameMenu()
+        {
+            MenuItem continueItem = new MenuItem(MenuItem.ItemType.Continue,
+                                                 menuTextures[menuItemLabels[0]][0],
+                                                 menuTextures[menuItemLabels[0]][1],
+                                                 menuTextures[menuItemLabels[0]][2]);
+            MenuItem scoresItem = new MenuItem(MenuItem.ItemType.ShowHighScores,
+                                               menuTextures[menuItemLabels[1]][0],
+                                               menuTextures[menuItemLabels[1]][1],
+                                               menuTextures[menuItemLabels[1]][2]);
+            MenuItem exitItem = new MenuItem(MenuItem.ItemType.Exit,
+                                             menuTextures[menuItemLabels[2]][0],
+                                             menuTextures[menuItemLabels[2]][1],
+                                             menuTextures[menuItemLabels[2]][2]);
+            MenuItem backItem = new MenuItem(MenuItem.ItemType.Back,
+                                             menuTextures[menuItemLabels[3]][0],
+                                             menuTextures[menuItemLabels[3]][1],
+                                             menuTextures[menuItemLabels[3]][2]);
+            MenuItem replayItem = new MenuItem(MenuItem.ItemType.Replay,
+                                             menuTextures[menuItemLabels[4]][0],
+                                             menuTextures[menuItemLabels[4]][1],
+                                             menuTextures[menuItemLabels[4]][2]);
+            mainMenu = new GameMenu();
+            mainMenu.AddItem(continueItem);
+            mainMenu.AddItem(scoresItem);
+            mainMenu.AddItem(exitItem);
+
+            scoresMenu = new GameMenu();
+            scoresMenu.AddItem(backItem);
+
+            nextLevelMenu = new GameMenu();
+            nextLevelMenu.AddItem(replayItem);
+            nextLevelMenu.AddItem(continueItem);
+        }
+
+        private void LoadMenuTextures()
+        {
+            foreach(var label in menuItemLabels)
+            {
+                var textures = new Texture2D[3];
+                textures[0] = Content.Load<Texture2D>($"Images/Menu/{label}Default");
+                textures[1] = Content.Load<Texture2D>($"Images/Menu/{label}Selected");
+                textures[2] = Content.Load<Texture2D>($"Images/Menu/{label}Inactive");
+
+                menuTextures[label] = textures;
+            }
+        }
+
+        private void LoadGameObjectTextures()
+        {
+            foreach (var imageFileName in gameMap.ImageFileNames)
+            {
+                gameObjectTextures[imageFileName] = Content.Load<Texture2D>("Images/" + imageFileName);
+            }
+        }
 
         public Game1()
         {
@@ -59,10 +121,11 @@ namespace Sokoban.Desktop
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            foreach(var imageFileName in gameMap.ImageFileNames)
-            {
-                textures[imageFileName] = Content.Load<Texture2D>("Images/" + imageFileName);
-            }
+            LoadMenuTextures();
+            InitGameMenu();
+
+            LoadGameObjectTextures();
+
         }
 
         /// <summary>
@@ -140,6 +203,11 @@ namespace Sokoban.Desktop
             previousState = keyboardState;
         }
 
+        private void DrawMenu()
+        {
+
+        }
+
         private void DrawWhenPlaying()
         {
             /*var cellSize = Math.Min(Window.ClientBounds.Height / gameMap.Height,
@@ -149,7 +217,7 @@ namespace Sokoban.Desktop
             {
                 for (int y = 0; y < gameMap.Height; y++)
                 {
-                    spriteBatch.Draw(textures[gameMap[x, y].ImageFileName],
+                    spriteBatch.Draw(gameObjectTextures[gameMap[x, y].ImageFileName],
                                      new Rectangle(x + x * Constants.CellSize,
                                                    y + y * Constants.CellSize,
                                                    Constants.CellSize,

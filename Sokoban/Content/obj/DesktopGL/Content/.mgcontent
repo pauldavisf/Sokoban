@@ -6,11 +6,41 @@
   <SourceFiles>
     <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/box.png</File>
     <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/empty.png</File>
+    <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/Menu/backDefault.jpg</File>
+    <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/Menu/backInactive.jpg</File>
+    <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/Menu/backSelected.jpg</File>
+    <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/Menu/continueDefault.jpg</File>
+    <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/Menu/continueInactive.jpg</File>
+    <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/Menu/continueSelected.jpg</File>
+    <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/Menu/exitDefault.jpg</File>
+    <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/Menu/exitInactive.jpg</File>
+    <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/Menu/exitSelected.jpg</File>
+    <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/Menu/replayDefault.jpg</File>
+    <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/Menu/replayInactive.jpg</File>
+    <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/Menu/replaySelected.jpg</File>
+    <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/Menu/scoresDefault.jpg</File>
+    <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/Menu/scoresInactive.jpg</File>
+    <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/Menu/scoresSelected.jpg</File>
     <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/objective.png</File>
     <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/player.png</File>
     <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/terrain.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
