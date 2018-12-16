@@ -1,12 +1,10 @@
 ﻿<Properties StartupConfiguration="{905B6B3B-33B1-49FB-B691-AE30F88CB4F5}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Sokoban/Architecture/GameMap.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Sokoban/Architecture/GameMenu.cs">
     <Files>
-      <File FileName="Sokoban/Game.cs" Line="49" Column="17" />
-      <File FileName="Sokoban/Architecture/GameMap.cs" Line="52" Column="1" />
-      <File FileName="Sokoban/Architecture/GameObjectCreator.cs" Line="1" Column="1" />
-      <File FileName="Sokoban/Architecture/Constants.cs" Line="21" Column="1" />
-      <File FileName="Sokoban/Architecture/GameObjects/Empty.cs" Line="11" Column="1" />
-      <File FileName="Sokoban/Architecture/GameObjects/Objective.cs" Line="10" Column="50" />
+      <File FileName="Sokoban/Game.cs" Line="1" Column="34" />
+      <File FileName="Sokoban/Architecture/MenuItem.cs" Line="30" Column="1" />
+      <File FileName="Sokoban/Architecture/IGameMenu.cs" Line="10" Column="1" />
+      <File FileName="Sokoban/Architecture/GameMenu.cs" Line="5" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.Sokoban.Desktop PreferredExecutionTarget="MonoDevelop.Default" />

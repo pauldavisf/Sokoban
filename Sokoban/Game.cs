@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Sokoban.Architecture;
@@ -12,7 +13,13 @@ namespace Sokoban.Desktop
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
         private GameMap gameMap;
+        private MoveController moveController;
+        private KeyboardState previousState;
+        private GameState gameState;
+
+        private Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
 
         public Game1()
         {
@@ -28,8 +35,12 @@ namespace Sokoban.Desktop
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             gameMap = new GameMap(Constants.Level1);
+            moveController = new MoveController(gameMap);
+            gameState = new GameState(gameMap.ObjectivesCount);
+            gameState.CurrentState = GameState.State.Playing;
+
+            previousState = Keyboard.GetState();
 
             base.Initialize();
         }
@@ -45,10 +56,8 @@ namespace Sokoban.Desktop
 
             foreach(var imageFileName in gameMap.ImageFileNames)
             {
-                Content.Load<Texture2D>("Images/" + imageFileName);
+                textures[imageFileName] = Content.Load<Texture2D>("Images/" + imageFileName);
             }
-
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -57,8 +66,32 @@ namespace Sokoban.Desktop
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
             Content.Unload();
+        }
+
+        private GameActionResult HandlePlayerMoveKeys(KeyboardState keyboardState)
+        {
+            if (keyboardState.IsKeyDown(Keys.Up) && !previousState.IsKeyDown(Keys.Up))
+            {
+                return moveController.MovePlayer(new Offset(0, -1));
+            }
+
+            if (keyboardState.IsKeyDown(Keys.Down) && !previousState.IsKeyDown(Keys.Down))
+            {
+                return moveController.MovePlayer(new Offset(0, 1));
+            }
+
+            if (keyboardState.IsKeyDown(Keys.Left) && !previousState.IsKeyDown(Keys.Left))
+            {
+                return moveController.MovePlayer(new Offset(-1, 0));
+            }
+
+            if (keyboardState.IsKeyDown(Keys.Right) && !previousState.IsKeyDown(Keys.Right))
+            {
+                return moveController.MovePlayer(new Offset(1, 0));
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -68,12 +101,42 @@ namespace Sokoban.Desktop
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            var keyboardState = Keyboard.GetState();
 
-            // TODO: Add your update logic here
+            if (gameState.CurrentState == GameState.State.Playing)
+            {
+                var actionResult = HandlePlayerMoveKeys(keyboardState);
+
+                if (actionResult != null)
+                {
+                    gameState.RemainingObjectives -= actionResult.ObjectivesDelta;
+
+                    if (gameState.RemainingObjectives == 0)
+                    {
+                        gameState.CurrentState = GameState.State.LevelEnd;
+                    }
+                }
+            }
 
             base.Update(gameTime);
+
+            previousState = keyboardState;
+        }
+
+        private void DrawWhenPlaying()
+        {
+            for (int x = 0; x < gameMap.Width; x++)
+            {
+                for (int y = 0; y < gameMap.Height; y++)
+                {
+                    spriteBatch.Draw(textures[gameMap[x, y].ImageFileName],
+                                     new Rectangle(x + x * Constants.CellSize,
+                                                   y + y * Constants.CellSize,
+                                                   Constants.CellSize,
+                                                   Constants.CellSize),
+                                     Color.White);
+                }
+            }
         }
 
         /// <summary>
@@ -84,7 +147,14 @@ namespace Sokoban.Desktop
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+
+            if (gameState.CurrentState == GameState.State.Playing)
+            {
+                DrawWhenPlaying();
+            }
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

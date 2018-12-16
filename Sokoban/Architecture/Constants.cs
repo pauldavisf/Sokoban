@@ -1,5 +1,4 @@
-﻿using System;
-namespace Sokoban.Architecture
+﻿namespace Sokoban.Architecture
 {
     public static class Constants
     {
@@ -8,6 +7,8 @@ namespace Sokoban.Architecture
         public const char Terrain = 't';
         public const char Objective = 'o';
         public const char Empty = ' ';
+
+        public const int CellSize = 60;
 
         public static string Level1 = "   ttttt\n" +
         	                          "tttttt  \n" +

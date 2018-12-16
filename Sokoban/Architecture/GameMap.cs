@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace Sokoban.Architecture
 {
@@ -10,8 +11,25 @@ namespace Sokoban.Architecture
 
         public int Width { get; private set; }
         public int Height { get; private set; }
+        public int ObjectivesCount { get; private set; }
 
         public readonly List<string> ImageFileNames = new List<string>();
+
+        public Point GetPlayerCoordinates()
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    if (gameObjects[x, y] is Player)
+                    {
+                        return new Point(x, y);
+                    }
+                }
+            }
+
+            throw new InvalidOperationException("Player not found on the map!");
+        }
 
         public bool IsObjective(int x, int y)
         {
@@ -47,7 +65,12 @@ namespace Sokoban.Architecture
                     }
 
                     gameObjects[x, y] = GameObjectCreator.CreateObject(line[x]);
-                    objectivesMap[x, y] = gameObjects[x, y] is Objective;
+
+                    if (gameObjects[x, y] is Objective)
+                    {
+                        ObjectivesCount++;
+                        objectivesMap[x, y] = true;
+                    }
 
                     if (!ImageFileNames.Contains(gameObjects[x, y].ImageFileName))
                     {

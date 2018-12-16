@@ -20,7 +20,7 @@ namespace Sokoban.Architecture
 
             return sourceObject.Moveable &&
                    ValidationHelper.ValidateCoordinates(gameMap, endX, endY, false) &&
-                   (gameMap[endX, endY] is Empty || gameMap[endX, endY] is Objective);
+                   (gameMap[endX, endY] is Terrain || gameMap[endX, endY] is Objective);
         }
 
         private void MakeMapCellEmpty(int x, int y)
@@ -33,11 +33,11 @@ namespace Sokoban.Architecture
             }
             else
             {
-                gameMap[x, y] = new Empty();
+                gameMap[x, y] = new Terrain();
             }
         }
 
-        public GameActionResult Move(int sourceX, int sourceY, Offset offset)
+        private GameActionResult Move(int sourceX, int sourceY, Offset offset)
         {
             ValidationHelper.ValidateCoordinates(gameMap, sourceX, sourceY, true);
 
@@ -49,7 +49,6 @@ namespace Sokoban.Architecture
             var sourceObject = gameMap[sourceX, sourceY];
             var endX = sourceX + offset.DeltaX;
             var endY = sourceY + offset.DeltaY;
-            var scores = 0;
             var objectivesDelta = 0;
 
             if (gameMap.IsObjective(endX, endY) && sourceObject is Box)
@@ -63,8 +62,33 @@ namespace Sokoban.Architecture
             }
 
             gameMap[endX, endY] = sourceObject;
+            MakeMapCellEmpty(sourceX, sourceY);
 
-            return new GameActionResult(false, true, scores, objectivesDelta);
+            return new GameActionResult(objectivesDelta);
+        }
+
+        public GameActionResult MovePlayer(Offset offset)
+        {
+            var playerCoordinates = gameMap.GetPlayerCoordinates();
+            var endX = playerCoordinates.X + offset.DeltaX;
+            var endY = playerCoordinates.Y + offset.DeltaY;
+
+            if (!ValidationHelper.ValidateCoordinates(gameMap, endX, endY, false))
+            {
+                return null;
+            }
+
+            var endPointObject = gameMap[endX, endY];
+
+            if (endPointObject is Box)
+            {
+                var boxMoveResult = Move(endX, endY, offset);
+                var playerMoveResult = Move(playerCoordinates.X, playerCoordinates.Y, offset);
+
+                return boxMoveResult;
+            }
+
+            return Move(playerCoordinates.X, playerCoordinates.Y, offset);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-namespace Sokoban.Architecture
+﻿namespace Sokoban.Architecture
 {
     public class GameState
     {
@@ -7,11 +6,22 @@ namespace Sokoban.Architecture
         {
             ScoresShowing,
             Playing,
-            Paused
+            Paused,
+            LevelEnd
         }
 
         public int Scores;
         public State CurrentState;
         public int RemainingObjectives;
+
+        public GameState()
+        {
+
+        }
+
+        public GameState(int objectivesCount)
+        {
+            RemainingObjectives = objectivesCount;
+        }
     }
 }

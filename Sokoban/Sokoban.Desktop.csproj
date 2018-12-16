@@ -60,6 +60,9 @@
     <Compile Include="Architecture\GameObjects\Player.cs" />
     <Compile Include="Architecture\GameObjects\Empty.cs" />
     <Compile Include="Architecture\GameObjects\Terrain.cs" />
+    <Compile Include="Architecture\IGameMenu.cs" />
+    <Compile Include="Architecture\MenuItem.cs" />
+    <Compile Include="Architecture\GameMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -67,6 +70,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />
