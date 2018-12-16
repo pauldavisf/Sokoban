@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -39,6 +40,10 @@ namespace Sokoban.Desktop
             moveController = new MoveController(gameMap);
             gameState = new GameState(gameMap.ObjectivesCount);
             gameState.CurrentState = GameState.State.Playing;
+
+            graphics.PreferredBackBufferWidth = gameMap.Width * Constants.CellSize;
+            graphics.PreferredBackBufferHeight = gameMap.Height * Constants.CellSize;
+            graphics.ApplyChanges();
 
             previousState = Keyboard.GetState();
 
@@ -103,6 +108,18 @@ namespace Sokoban.Desktop
         {
             var keyboardState = Keyboard.GetState();
 
+            if (keyboardState.IsKeyDown(Keys.Escape) && !previousState.IsKeyDown(Keys.Escape))
+            {
+                if (gameState.CurrentState == GameState.State.Playing)
+                {
+                    gameState.CurrentState = GameState.State.Paused;
+                }
+                else if (gameState.CurrentState == GameState.State.Paused)
+                {
+                    gameState.CurrentState = GameState.State.Playing;
+                }
+            }
+
             if (gameState.CurrentState == GameState.State.Playing)
             {
                 var actionResult = HandlePlayerMoveKeys(keyboardState);
@@ -125,6 +142,9 @@ namespace Sokoban.Desktop
 
         private void DrawWhenPlaying()
         {
+            /*var cellSize = Math.Min(Window.ClientBounds.Height / gameMap.Height,
+                                    Window.ClientBounds.Width / gameMap.Width);*/
+
             for (int x = 0; x < gameMap.Width; x++)
             {
                 for (int y = 0; y < gameMap.Height; y++)
