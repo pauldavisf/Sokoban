@@ -16,13 +16,42 @@ namespace Sokoban.Architecture
             Exit
         }
 
-        public ItemType Type;
-        public bool isActive;
+        public enum TextureType
+        {
+            Default,
+            Inactive,
+            Selected
+        }
 
+        private Texture2D defaultTexture;
+        private Texture2D inactiveTexture;
+        private Texture2D selectedTexture;
+        private bool isActive;
+
+        public ItemType Type;
         public Texture2D CurrentTexture;
-        public Texture2D DefaultTexture;
-        public Texture2D InactiveTexture;
-        public Texture2D SelectedTexture;
+
+
+        public bool IsActive
+        {
+            get
+            {
+                return isActive;
+            }
+
+            set
+            {
+                isActive = !isActive;
+                if (isActive)
+                {
+                    ChangeTextureType(TextureType.Default);
+                }
+                else
+                {
+                    ChangeTextureType(TextureType.Inactive);
+                }
+            }
+        }
 
         public MenuItem(ItemType type,
                         Texture2D defaultTexture,
@@ -30,11 +59,27 @@ namespace Sokoban.Architecture
                         Texture2D selectedTexture)
         {
             Type = type;
-            DefaultTexture = defaultTexture;
-            InactiveTexture = inactiveTexture;
-            SelectedTexture = selectedTexture;
-            CurrentTexture = DefaultTexture;
+            this.defaultTexture = defaultTexture;
+            this.inactiveTexture = inactiveTexture;
+            this.selectedTexture = selectedTexture;
+            CurrentTexture = defaultTexture;
             isActive = true;
+        }
+
+        public void ChangeTextureType(TextureType textureType)
+        {
+            switch (textureType)
+            {
+                case TextureType.Default:
+                    CurrentTexture = defaultTexture;
+                    break;
+                case TextureType.Inactive:
+                    CurrentTexture = inactiveTexture;
+                    break;
+                case TextureType.Selected:
+                    CurrentTexture = selectedTexture;
+                    break;
+            }
         }
     }
 }
