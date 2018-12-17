@@ -24,8 +24,14 @@
     <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/objective.png</File>
     <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/player.png</File>
     <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/terrain.png</File>
+    <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Sound/Level Music/level1.mp3</File>
+    <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Sound/Level Music/level2.mp3</File>
+    <File>/Users/paul/Projects/Sokoban/Sokoban/Content/Sound/Level Music/level3.mp3</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

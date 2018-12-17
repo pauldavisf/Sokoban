@@ -253,3 +253,21 @@
 /processorParam:TextureFormat=Color
 /build:Images/terrain.png
 
+#begin Sound/Level Music/level1.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sound/Level Music/level1.mp3
+
+#begin Sound/Level Music/level2.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sound/Level Music/level2.mp3
+
+#begin Sound/Level Music/level3.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sound/Level Music/level3.mp3
+

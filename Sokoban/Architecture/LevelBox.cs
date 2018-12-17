@@ -62,10 +62,12 @@ namespace Sokoban.Architecture
 
             for (int i = index; i < lines.Length - 1; i++)
             {
-                if (lines[i].Length > 0)
+                if (lines[i].Length == 0)
                 {
-                    linesForMap.Add(lines[i]);
+                    break;
                 }
+
+                linesForMap.Add(lines[i]);
             }
 
             return new GameMap(linesForMap.ToArray());

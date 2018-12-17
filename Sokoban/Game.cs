@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using Sokoban.Architecture;
 
 namespace Sokoban.Desktop
@@ -22,6 +23,7 @@ namespace Sokoban.Desktop
         private GameMenu mainMenu;
         private GameMenu scoresMenu;
         private GameMenu nextLevelMenu;
+        private Song music;
 
         private string[] menuItemLabels = { "continue", "scores", "exit", "back", "replay" };
 
@@ -104,6 +106,9 @@ namespace Sokoban.Desktop
                 var levelBox = new LevelBox(Config.LevelsFileName);
                 currentLevel = levelBox.CurrentLevel;
                 gameMap = currentLevel.Map;
+                music = Content.Load<Song>("Sound/Level Music/" + currentLevel.BackgroundSoundFileName);
+                MediaPlayer.Play(music);
+                MediaPlayer.IsRepeating = true;
             }
             else
             {

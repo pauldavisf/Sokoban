@@ -38,3 +38,9 @@
 /Users/paul/Projects/Sokoban/Sokoban/bin/DesktopGL/AnyCPU/Debug/Content/Images/Menu/scoresDefault.xnb
 /Users/paul/Projects/Sokoban/Sokoban/bin/DesktopGL/AnyCPU/Debug/Content/Images/Menu/scoresInactive.xnb
 /Users/paul/Projects/Sokoban/Sokoban/bin/DesktopGL/AnyCPU/Debug/Content/Images/Menu/scoresSelected.xnb
+/Users/paul/Projects/Sokoban/Sokoban/bin/DesktopGL/AnyCPU/Debug/Content/Sound/Level Music/level1.ogg
+/Users/paul/Projects/Sokoban/Sokoban/bin/DesktopGL/AnyCPU/Debug/Content/Sound/Level Music/level1.xnb
+/Users/paul/Projects/Sokoban/Sokoban/bin/DesktopGL/AnyCPU/Debug/Content/Sound/Level Music/level2.ogg
+/Users/paul/Projects/Sokoban/Sokoban/bin/DesktopGL/AnyCPU/Debug/Content/Sound/Level Music/level2.xnb
+/Users/paul/Projects/Sokoban/Sokoban/bin/DesktopGL/AnyCPU/Debug/Content/Sound/Level Music/level3.ogg
+/Users/paul/Projects/Sokoban/Sokoban/bin/DesktopGL/AnyCPU/Debug/Content/Sound/Level Music/level3.xnb
