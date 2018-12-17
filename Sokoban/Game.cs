@@ -98,13 +98,24 @@ namespace Sokoban.Desktop
         /// </summary>
         protected override void Initialize()
         {
-            gameMap = new GameMap(Constants.Level1);
+            Level currentLevel;
+            if (Config.LevelsFileName != null)
+            {
+                var levelBox = new LevelBox(Config.LevelsFileName);
+                currentLevel = levelBox.CurrentLevel;
+                gameMap = currentLevel.Map;
+            }
+            else
+            {
+                gameMap = new GameMap(Constants.DefaultLevel);
+            }
+
             moveController = new MoveController(gameMap);
             gameState = new GameState(gameMap.ObjectivesCount);
             gameState.CurrentState = GameState.State.Playing;
 
-            graphics.PreferredBackBufferWidth = gameMap.Width * Constants.CellSize;
-            graphics.PreferredBackBufferHeight = gameMap.Height * Constants.CellSize;
+            graphics.PreferredBackBufferWidth = gameMap.Width * Config.CellSize;
+            graphics.PreferredBackBufferHeight = gameMap.Height * Config.CellSize;
             graphics.ApplyChanges();
 
             previousState = Keyboard.GetState();
@@ -257,18 +268,15 @@ namespace Sokoban.Desktop
 
         private void DrawMap(bool active)
         {
-            /*var cellSize = Math.Min(Window.ClientBounds.Height / gameMap.Height,
-                                    Window.ClientBounds.Width / gameMap.Width);*/
-
             for (int x = 0; x < gameMap.Width; x++)
             {
                 for (int y = 0; y < gameMap.Height; y++)
                 {
                     spriteBatch.Draw(gameObjectTextures[gameMap[x, y].ImageFileName],
-                                     new Rectangle(x + x * Constants.CellSize,
-                                                   y + y * Constants.CellSize,
-                                                   Constants.CellSize,
-                                                   Constants.CellSize),
+                                     new Rectangle(x + x * Config.CellSize,
+                                                   y + y * Config.CellSize,
+                                                   Config.CellSize,
+                                                   Config.CellSize),
                                      active ? Color.White : Color.CornflowerBlue);
                 }
             }

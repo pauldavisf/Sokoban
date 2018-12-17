@@ -63,6 +63,10 @@
     <Compile Include="Architecture\IGameMenu.cs" />
     <Compile Include="Architecture\MenuItem.cs" />
     <Compile Include="Architecture\GameMenu.cs" />
+    <Compile Include="Architecture\Level.cs" />
+    <Compile Include="Architecture\ILevelBox.cs" />
+    <Compile Include="Architecture\LevelBox.cs" />
+    <Compile Include="Architecture\Config.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

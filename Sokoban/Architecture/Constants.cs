@@ -8,9 +8,7 @@
         public const char Objective = 'o';
         public const char Empty = ' ';
 
-        public const int CellSize = 60;
-
-        public static string Level1 = "   ttttt\n" +
+        public static string DefaultLevel = "   ttttt\n" +
         	                          "tttttt  \n" +
         	                          "bttttttt\n" +
         	                          "ttbbt tt\n" +

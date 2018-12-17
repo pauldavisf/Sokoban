@@ -1,5 +1,4 @@
-﻿using System;
-namespace Sokoban.Architecture
+﻿namespace Sokoban.Architecture
 {
     public class MoveController : IMoveController
     {

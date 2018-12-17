@@ -7,7 +7,7 @@ namespace Sokoban.Architecture
     public class GameMap
     {
         private IGameObject[,] gameObjects;
-        private bool[,] objectivesMap;
+        private Objective[,] objectivesMap;
 
         public int Width { get; private set; }
         public int Height { get; private set; }
@@ -35,7 +35,7 @@ namespace Sokoban.Architecture
         {
             ValidationHelper.ValidateCoordinates(this, x, y, true);
 
-            return objectivesMap[x, y];
+            return objectivesMap[x, y] is Objective;
         }
 
         public void LoadFromStrings(string[] lines)
@@ -69,7 +69,7 @@ namespace Sokoban.Architecture
                     if (gameObjects[x, y] is Objective)
                     {
                         ObjectivesCount++;
-                        objectivesMap[x, y] = true;
+                        objectivesMap[x, y] = gameObjects[x, y] as Objective;
                     }
 
                     if (!ImageFileNames.Contains(gameObjects[x, y].ImageFileName))
@@ -77,15 +77,12 @@ namespace Sokoban.Architecture
                         ImageFileNames.Add(gameObjects[x, y].ImageFileName);
                     }
                 }
+            }
 
-                if (!isPlayerOnMap)
-                {
-                    if (isPlayerOnMap)
-                    {
-                        throw new ArgumentException("There is no player on the map",
-                                                    nameof(lines));
-                    }
-                }
+            if (!isPlayerOnMap)
+            {
+                throw new ArgumentException("There is no player on the map",
+                                            nameof(lines));
             }
         }
 
@@ -100,7 +97,22 @@ namespace Sokoban.Architecture
             Width = lines[0].Length;
             Height = lines.Length;
             gameObjects = new IGameObject[Width, Height];
-            objectivesMap = new bool[Width, Height];
+            objectivesMap = new Objective[Width, Height];
+
+            LoadFromStrings(lines);
+        }
+
+        public GameMap(string[] lines)
+        {
+            if (lines == null)
+            {
+                throw new ArgumentNullException(nameof(lines));
+            }
+
+            Width = lines[0].Length;
+            Height = lines.Length;
+            gameObjects = new IGameObject[Width, Height];
+            objectivesMap = new Objective[Width, Height];
 
             LoadFromStrings(lines);
         }
@@ -110,7 +122,7 @@ namespace Sokoban.Architecture
             Width = width;
             Height = height;
             gameObjects = new IGameObject[Width, Height];
-            objectivesMap = new bool[Width, Height];
+            objectivesMap = new Objective[Width, Height];
         }
 
         public IGameObject this[int x, int y]
