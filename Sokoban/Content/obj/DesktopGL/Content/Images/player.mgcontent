@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>/Users/paul/Projects/Sokoban/Sokoban/Content/Images/player.png</SourceFile>
-  <SourceTime>2014-09-02T12:51:04+07:00</SourceTime>
+  <SourceTime>2018-06-25T10:47:04+07:00</SourceTime>
   <DestFile>/Users/paul/Projects/Sokoban/Sokoban/Content/bin/DesktopGL/Content/Images/player.xnb</DestFile>
-  <DestTime>2018-12-16T14:04:21.823153+07:00</DestTime>
+  <DestTime>2018-12-17T18:50:05.839336+07:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-09-24T04:56:40+07:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

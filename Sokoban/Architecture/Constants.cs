@@ -8,12 +8,14 @@
         public const char Objective = 'o';
         public const char Empty = ' ';
 
-        public static string DefaultLevel = "   ttttt\n" +
+        public static string DefaultLevelMap = "   ttttt\n" +
         	                          "tttttt  \n" +
         	                          "bttttttt\n" +
         	                          "ttbbt tt\n" +
         	                          "tttttott\n" +
         	                          "  tottpt";
+
+        public static Level DefaultLevel = new Level("Default level", 1, null, new GameMap(DefaultLevelMap));
         public static int DefaultScoresForObjective = 100;
     }
 }

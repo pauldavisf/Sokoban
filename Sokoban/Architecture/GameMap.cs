@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace Sokoban.Architecture
 {
-    public class GameMap
+    public class GameMap : IGameMap
     {
         private IGameObject[,] gameObjects;
         private Objective[,] objectivesMap;
@@ -12,6 +13,8 @@ namespace Sokoban.Architecture
         public int Width { get; private set; }
         public int Height { get; private set; }
         public int ObjectivesCount { get; private set; }
+
+        public string[] stringRepresentation { get; private set; }
 
         public readonly List<string> ImageFileNames = new List<string>();
 
@@ -108,6 +111,8 @@ namespace Sokoban.Architecture
             {
                 throw new ArgumentNullException(nameof(lines));
             }
+
+            stringRepresentation = lines;
 
             Width = lines[0].Length;
             Height = lines.Length;

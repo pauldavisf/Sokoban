@@ -7,7 +7,8 @@
             ScoresShowing,
             Playing,
             Paused,
-            LevelEnd
+            LevelEnd,
+            GameEnd
         }
 
         public int Scores;

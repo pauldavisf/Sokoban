@@ -67,6 +67,10 @@
     <Compile Include="Architecture\ILevelBox.cs" />
     <Compile Include="Architecture\LevelBox.cs" />
     <Compile Include="Architecture\Config.cs" />
+    <Compile Include="Architecture\KeyboardHandler.cs" />
+    <Compile Include="Drawer.cs" />
+    <Compile Include="IDrawer.cs" />
+    <Compile Include="Architecture\IGameMap.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

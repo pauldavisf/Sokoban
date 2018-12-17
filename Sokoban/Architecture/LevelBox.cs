@@ -53,6 +53,11 @@ namespace Sokoban.Architecture
             level.ScoresMultiplier = double.Parse(lines[index + 1]);
             level.BackgroundSoundFileName = lines[index + 2];
 
+            if (level.BackgroundSoundFileName == "none")
+            {
+                level.BackgroundSoundFileName = null;
+            }
+
             return level;
         }
 

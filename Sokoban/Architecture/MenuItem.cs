@@ -9,6 +9,7 @@ namespace Sokoban.Architecture
     {
         public enum ItemType
         {
+            None,
             Continue,
             Replay,
             NextLevel,

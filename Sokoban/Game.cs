@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -17,13 +16,17 @@ namespace Sokoban.Desktop
         SpriteBatch spriteBatch;
 
         private GameMap gameMap;
-        private MoveController moveController;
+        private IMoveController moveController;
         private KeyboardState previousState;
         private GameState gameState;
         private GameMenu mainMenu;
         private GameMenu scoresMenu;
         private GameMenu nextLevelMenu;
+        LevelBox levelBox;
         private Song music;
+        Drawer drawer;
+
+        Level currentLevel;
 
         private string[] menuItemLabels = { "continue", "scores", "exit", "back", "replay" };
 
@@ -48,20 +51,25 @@ namespace Sokoban.Desktop
                                              menuTextures[menuItemLabels[3]][0],
                                              menuTextures[menuItemLabels[3]][1],
                                              menuTextures[menuItemLabels[3]][2]);
-            MenuItem replayItem = new MenuItem(MenuItem.ItemType.Replay,
+            MenuItem replayItem1 = new MenuItem(MenuItem.ItemType.Replay,
+                                             menuTextures[menuItemLabels[4]][0],
+                                             menuTextures[menuItemLabels[4]][1],
+                                             menuTextures[menuItemLabels[4]][2]);
+            MenuItem replayItem2 = new MenuItem(MenuItem.ItemType.Replay,
                                              menuTextures[menuItemLabels[4]][0],
                                              menuTextures[menuItemLabels[4]][1],
                                              menuTextures[menuItemLabels[4]][2]);
             mainMenu = new GameMenu();
             mainMenu.AddItem(continueItem);
             mainMenu.AddItem(scoresItem);
+            mainMenu.AddItem(replayItem1);
             mainMenu.AddItem(exitItem);
 
             scoresMenu = new GameMenu();
             scoresMenu.AddItem(backItem);
 
             nextLevelMenu = new GameMenu();
-            nextLevelMenu.AddItem(replayItem);
+            nextLevelMenu.AddItem(replayItem2);
             nextLevelMenu.AddItem(continueItem);
         }
 
@@ -92,6 +100,29 @@ namespace Sokoban.Desktop
             Content.RootDirectory = "Content";
         }
 
+        private void LoadLevel(Level level)
+        {
+            gameMap = new GameMap(level.Map.stringRepresentation);
+            if (level.BackgroundSoundFileName != null)
+            {
+                music = Content.Load<Song>("Sound/Level Music/" + level.BackgroundSoundFileName);
+                MediaPlayer.Play(music);
+                MediaPlayer.IsRepeating = true;
+            }
+
+            moveController = new MoveController(gameMap);
+            gameState = new GameState(gameMap.ObjectivesCount)
+            {
+                CurrentState = GameState.State.Playing
+            };
+
+            graphics.PreferredBackBufferWidth = gameMap.Width * Config.CellSize;
+            graphics.PreferredBackBufferHeight = gameMap.Height * Config.CellSize;
+            graphics.ApplyChanges();
+
+            previousState = Keyboard.GetState();
+        }
+
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -100,30 +131,17 @@ namespace Sokoban.Desktop
         /// </summary>
         protected override void Initialize()
         {
-            Level currentLevel;
             if (Config.LevelsFileName != null)
             {
-                var levelBox = new LevelBox(Config.LevelsFileName);
+                levelBox = new LevelBox(Config.LevelsFileName);
                 currentLevel = levelBox.CurrentLevel;
-                gameMap = currentLevel.Map;
-                music = Content.Load<Song>("Sound/Level Music/" + currentLevel.BackgroundSoundFileName);
-                MediaPlayer.Play(music);
-                MediaPlayer.IsRepeating = true;
             }
             else
             {
-                gameMap = new GameMap(Constants.DefaultLevel);
+                currentLevel = Constants.DefaultLevel;
             }
 
-            moveController = new MoveController(gameMap);
-            gameState = new GameState(gameMap.ObjectivesCount);
-            gameState.CurrentState = GameState.State.Playing;
-
-            graphics.PreferredBackBufferWidth = gameMap.Width * Config.CellSize;
-            graphics.PreferredBackBufferHeight = gameMap.Height * Config.CellSize;
-            graphics.ApplyChanges();
-
-            previousState = Keyboard.GetState();
+            LoadLevel(currentLevel);
 
             base.Initialize();
         }
@@ -136,6 +154,7 @@ namespace Sokoban.Desktop
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            drawer = new Drawer(Window, spriteBatch);
 
             LoadMenuTextures();
             InitGameMenu();
@@ -153,60 +172,6 @@ namespace Sokoban.Desktop
             Content.Unload();
         }
 
-        private void HandleMainMenuKeys(KeyboardState keyboardState)
-        {
-            if (keyboardState.IsKeyDown(Keys.Up) && !previousState.IsKeyDown(Keys.Up))
-            {
-                mainMenu.SelectPrev();
-            }
-
-            if (keyboardState.IsKeyDown(Keys.Down) && !previousState.IsKeyDown(Keys.Down))
-            {
-                mainMenu.SelectNext();
-            }
-
-            if (keyboardState.IsKeyDown(Keys.Enter) && !previousState.IsKeyDown(Keys.Enter))
-            {
-                if (mainMenu.CurrentItem.Type == MenuItem.ItemType.Continue)
-                {
-                    gameState.CurrentState = GameState.State.Playing;
-                }
-                else if (mainMenu.CurrentItem.Type == MenuItem.ItemType.ShowHighScores)
-                {
-                    gameState.CurrentState = GameState.State.ScoresShowing;
-                }
-                else if (mainMenu.CurrentItem.Type == MenuItem.ItemType.Exit)
-                {
-                    Exit();
-                }
-            }
-        }
-
-        private GameActionResult HandlePlayerMoveKeys(KeyboardState keyboardState)
-        {
-            if (keyboardState.IsKeyDown(Keys.Up) && !previousState.IsKeyDown(Keys.Up))
-            {
-                return moveController.MovePlayer(new Offset(0, -1));
-            }
-
-            if (keyboardState.IsKeyDown(Keys.Down) && !previousState.IsKeyDown(Keys.Down))
-            {
-                return moveController.MovePlayer(new Offset(0, 1));
-            }
-
-            if (keyboardState.IsKeyDown(Keys.Left) && !previousState.IsKeyDown(Keys.Left))
-            {
-                return moveController.MovePlayer(new Offset(-1, 0));
-            }
-
-            if (keyboardState.IsKeyDown(Keys.Right) && !previousState.IsKeyDown(Keys.Right))
-            {
-                return moveController.MovePlayer(new Offset(1, 0));
-            }
-
-            return null;
-        }
-
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -218,23 +183,25 @@ namespace Sokoban.Desktop
 
             if (keyboardState.IsKeyDown(Keys.Escape) && !previousState.IsKeyDown(Keys.Escape))
             {
-                if (gameState.CurrentState == GameState.State.Playing)
+                switch (gameState.CurrentState)
                 {
-                    gameState.CurrentState = GameState.State.Paused;
-                }
-                else if (gameState.CurrentState == GameState.State.Paused)
-                {
-                    gameState.CurrentState = GameState.State.Playing;
-                }
-                else if (gameState.CurrentState == GameState.State.ScoresShowing)
-                {
-                    gameState.CurrentState = GameState.State.Paused;
+                    case GameState.State.Playing:
+                        gameState.CurrentState = GameState.State.Paused;
+                        break;
+                    case GameState.State.Paused:
+                        gameState.CurrentState = GameState.State.Playing;
+                        break;
+                    case GameState.State.ScoresShowing:
+                        gameState.CurrentState = GameState.State.Paused;
+                        break;
                 }
             }
 
             if (gameState.CurrentState == GameState.State.Playing)
             {
-                var actionResult = HandlePlayerMoveKeys(keyboardState);
+                var actionResult = KeyboardHandler.HandlePlayerMoveKeys(keyboardState,
+                                                                        previousState,
+                                                                        moveController);
 
                 if (actionResult != null)
                 {
@@ -248,7 +215,39 @@ namespace Sokoban.Desktop
             }
             else if (gameState.CurrentState == GameState.State.Paused)
             {
-                HandleMainMenuKeys(keyboardState);
+                var result = KeyboardHandler.HandleMainMenuKeys(keyboardState,
+                                                                previousState,
+                                                                mainMenu);
+
+                if (result == MenuItem.ItemType.Continue)
+                {
+                    gameState.CurrentState = GameState.State.Playing;
+                }
+                else if (result == MenuItem.ItemType.ShowHighScores)
+                {
+                    gameState.CurrentState = GameState.State.ScoresShowing;
+                }
+                else if (result == MenuItem.ItemType.Replay)
+                {
+                    LoadLevel(currentLevel);
+                }
+                else if (result == MenuItem.ItemType.Exit)
+                {
+                    Exit();
+                }
+            }
+            else if (gameState.CurrentState == GameState.State.LevelEnd)
+            {
+                currentLevel = levelBox.NextLevel();
+
+                if (currentLevel == null)
+                {
+                    gameState.CurrentState = GameState.State.GameEnd;
+                }
+                else
+                {
+                    LoadLevel(currentLevel);
+                }
             }
 
             base.Update(gameTime);
@@ -258,33 +257,12 @@ namespace Sokoban.Desktop
 
         private void DrawMenu()
         {
-            int y = 0;
-            foreach(var item in mainMenu)
-            {
-                spriteBatch.Draw(item.CurrentTexture,
-                                 new Rectangle(Window.ClientBounds.Width / 2 - item.CurrentTexture.Width / 2,
-                                               y,
-                                               item.CurrentTexture.Width,
-                                               item.CurrentTexture.Height),
-                                               Color.White);
-                y += item.CurrentTexture.Height;
-            }
+            drawer.DrawMenu(mainMenu);
         }
 
-        private void DrawMap(bool active)
+        private void DrawMap(bool blur)
         {
-            for (int x = 0; x < gameMap.Width; x++)
-            {
-                for (int y = 0; y < gameMap.Height; y++)
-                {
-                    spriteBatch.Draw(gameObjectTextures[gameMap[x, y].ImageFileName],
-                                     new Rectangle(x + x * Config.CellSize,
-                                                   y + y * Config.CellSize,
-                                                   Config.CellSize,
-                                                   Config.CellSize),
-                                     active ? Color.White : Color.CornflowerBlue);
-                }
-            }
+            drawer.DrawMap(gameMap, gameObjectTextures, blur);
         }
 
         /// <summary>
