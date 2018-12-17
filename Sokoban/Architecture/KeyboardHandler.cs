@@ -7,7 +7,7 @@ namespace Sokoban.Architecture
     {
         public static MenuItem.ItemType HandleMainMenuKeys(KeyboardState keyboardState,
                                                            KeyboardState previousState,
-                                                           GameMenu mainMenu)
+                                                           IGameMenu mainMenu)
         {
             if (keyboardState.IsKeyDown(Keys.Up) && !previousState.IsKeyDown(Keys.Up))
             {

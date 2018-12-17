@@ -71,6 +71,7 @@
     <Compile Include="Drawer.cs" />
     <Compile Include="IDrawer.cs" />
     <Compile Include="Architecture\IGameMap.cs" />
+    <Compile Include="Architecture\Metrics.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

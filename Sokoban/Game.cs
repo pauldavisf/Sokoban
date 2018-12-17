@@ -15,16 +15,16 @@ namespace Sokoban.Desktop
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        private GameMap gameMap;
+        private IGameMap gameMap;
         private IMoveController moveController;
         private KeyboardState previousState;
         private GameState gameState;
-        private GameMenu mainMenu;
-        private GameMenu scoresMenu;
-        private GameMenu nextLevelMenu;
-        LevelBox levelBox;
+        private IGameMenu mainMenu;
+        private IGameMenu scoresMenu;
+        private IGameMenu nextLevelMenu;
+        ILevelBox levelBox;
         private Song music;
-        Drawer drawer;
+        IDrawer drawer;
 
         Level currentLevel;
 
@@ -33,7 +33,7 @@ namespace Sokoban.Desktop
         private Dictionary<string, Texture2D> gameObjectTextures = new Dictionary<string, Texture2D>();
         private Dictionary<string, Texture2D[]> menuTextures = new Dictionary<string, Texture2D[]>();
 
-        private void InitGameMenu()
+        private void InitGameMenus()
         {
             MenuItem continueItem = new MenuItem(MenuItem.ItemType.Continue,
                                                  menuTextures[menuItemLabels[0]][0],
@@ -102,7 +102,7 @@ namespace Sokoban.Desktop
 
         private void LoadLevel(Level level)
         {
-            gameMap = new GameMap(level.Map.stringRepresentation);
+            gameMap = new GameMap(level.Map.StringRepresentation);
             if (level.BackgroundSoundFileName != null)
             {
                 music = Content.Load<Song>("Sound/Level Music/" + level.BackgroundSoundFileName);
@@ -157,7 +157,7 @@ namespace Sokoban.Desktop
             drawer = new Drawer(Window, spriteBatch);
 
             LoadMenuTextures();
-            InitGameMenu();
+            InitGameMenus();
 
             LoadGameObjectTextures();
 
@@ -238,6 +238,9 @@ namespace Sokoban.Desktop
             }
             else if (gameState.CurrentState == GameState.State.LevelEnd)
             {
+                gameState.Scores = (int)(Constants.DefaultScoresForObjective * gameMap.ObjectivesCount *
+                                   currentLevel.ScoresMultiplier / (gameTime.TotalGameTime.TotalSeconds / 30));
+
                 currentLevel = levelBox.NextLevel();
 
                 if (currentLevel == null)
@@ -255,16 +258,6 @@ namespace Sokoban.Desktop
             previousState = keyboardState;
         }
 
-        private void DrawMenu()
-        {
-            drawer.DrawMenu(mainMenu);
-        }
-
-        private void DrawMap(bool blur)
-        {
-            drawer.DrawMap(gameMap, gameObjectTextures, blur);
-        }
-
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -277,12 +270,12 @@ namespace Sokoban.Desktop
 
             if (gameState.CurrentState == GameState.State.Playing)
             {
-                DrawMap(true);
+                drawer.DrawMap(gameMap, gameObjectTextures, true);
             }
             else if (gameState.CurrentState == GameState.State.Paused)
             {
-                DrawMap(false);
-                DrawMenu();
+                drawer.DrawMap(gameMap, gameObjectTextures, false);
+                drawer.DrawMenu(mainMenu);
             }
 
             spriteBatch.End();

@@ -13,10 +13,9 @@ namespace Sokoban.Architecture
         public int Width { get; private set; }
         public int Height { get; private set; }
         public int ObjectivesCount { get; private set; }
+        public string[] StringRepresentation { get; private set; }
 
-        public string[] stringRepresentation { get; private set; }
-
-        public readonly List<string> ImageFileNames = new List<string>();
+        public List<string> ImageFileNames { get; private set; } = new List<string>();
 
         public Point GetPlayerCoordinates()
         {
@@ -112,7 +111,7 @@ namespace Sokoban.Architecture
                 throw new ArgumentNullException(nameof(lines));
             }
 
-            stringRepresentation = lines;
+            StringRepresentation = lines;
 
             Width = lines[0].Length;
             Height = lines.Length;

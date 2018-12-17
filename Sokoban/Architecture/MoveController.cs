@@ -2,9 +2,9 @@
 {
     public class MoveController : IMoveController
     {
-        private GameMap gameMap;
+        private IGameMap gameMap;
 
-        public MoveController(GameMap gameMap)
+        public MoveController(IGameMap gameMap)
         {
             this.gameMap = gameMap;
         }

@@ -6,9 +6,9 @@ namespace Sokoban.Architecture
         public string Label { get; set; }
         public double ScoresMultiplier { get; set; }
         public string BackgroundSoundFileName { get; set; }
-        public GameMap Map { get; set; }
+        public IGameMap Map { get; set; }
 
-        public Level(string label, double scoresMultiplier, string soundFileName, GameMap map)
+        public Level(string label, double scoresMultiplier, string soundFileName, IGameMap map)
         {
             Label = label;
             ScoresMultiplier = scoresMultiplier;

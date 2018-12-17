@@ -3,7 +3,7 @@ namespace Sokoban.Architecture
 {
     public static class ValidationHelper
     {
-        public static bool ValidateCoordinates(GameMap gameMap, int x, int y, bool throwException)
+        public static bool ValidateCoordinates(IGameMap gameMap, int x, int y, bool throwException)
         {
             if (y < 0 || y >= gameMap.Height)
             {
