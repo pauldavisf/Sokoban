@@ -15,13 +15,17 @@ namespace Sokoban.Desktop
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        private bool demoMode = false;
+
         private IGameMap gameMap;
         private IMoveController moveController;
         private KeyboardState previousState;
         private GameState gameState;
+
         private IGameMenu mainMenu;
         private IGameMenu scoresMenu;
         private IGameMenu nextLevelMenu;
+
         ILevelBox levelBox;
         private Song music;
         IDrawer drawer;
@@ -90,7 +94,10 @@ namespace Sokoban.Desktop
         {
             foreach (var imageFileName in gameMap.ImageFileNames)
             {
-                gameObjectTextures[imageFileName] = Content.Load<Texture2D>("Images/" + imageFileName);
+                if (imageFileName != null)
+                {
+                    gameObjectTextures[imageFileName] = Content.Load<Texture2D>("Images/" + imageFileName);
+                }
             }
         }
 
@@ -139,6 +146,7 @@ namespace Sokoban.Desktop
             else
             {
                 currentLevel = Constants.DefaultLevel;
+                demoMode = true;
             }
 
             LoadLevel(currentLevel);
@@ -154,7 +162,9 @@ namespace Sokoban.Desktop
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            drawer = new Drawer(Window, spriteBatch);
+
+            var frame = Content.Load<Texture2D>("Images/tv");
+            drawer = new Drawer(Window, spriteBatch, frame);
 
             LoadMenuTextures();
             InitGameMenus();
@@ -195,6 +205,10 @@ namespace Sokoban.Desktop
                         gameState.CurrentState = GameState.State.Paused;
                         break;
                 }
+            }
+            else if (keyboardState.IsKeyDown(Keys.M) && !previousState.IsKeyDown(Keys.M))
+            {
+                MediaPlayer.IsMuted = !MediaPlayer.IsMuted;
             }
 
             if (gameState.CurrentState == GameState.State.Playing)
@@ -238,6 +252,11 @@ namespace Sokoban.Desktop
             }
             else if (gameState.CurrentState == GameState.State.LevelEnd)
             {
+                if (demoMode)
+                {
+                    LoadLevel(Constants.DefaultLevel);
+                }
+
                 gameState.Scores = (int)(Constants.DefaultScoresForObjective * gameMap.ObjectivesCount *
                                    currentLevel.ScoresMultiplier / (gameTime.TotalGameTime.TotalSeconds / 30));
 
@@ -252,6 +271,10 @@ namespace Sokoban.Desktop
                     LoadLevel(currentLevel);
                 }
             }
+            else if (gameState.CurrentState == GameState.State.GameEnd)
+            {
+                Exit();
+            }
 
             base.Update(gameTime);
 
@@ -264,7 +287,7 @@ namespace Sokoban.Desktop
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.DarkViolet);
 
             spriteBatch.Begin();
 

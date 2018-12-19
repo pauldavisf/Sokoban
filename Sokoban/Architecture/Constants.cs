@@ -15,7 +15,7 @@
         	                          "tttttott\n" +
         	                          "  tottpt";
 
-        public static Level DefaultLevel = new Level("Default level", 1, null, new GameMap(DefaultLevelMap));
+        public static Level DefaultLevel = new Level("Demo mode!", 1, null, new GameMap(DefaultLevelMap));
         public static int DefaultScoresForObjective = 100;
     }
 }

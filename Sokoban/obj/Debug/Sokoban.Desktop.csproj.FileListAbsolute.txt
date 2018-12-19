@@ -44,3 +44,4 @@
 /Users/paul/Projects/Sokoban/Sokoban/bin/DesktopGL/AnyCPU/Debug/Content/Sound/Level Music/level2.xnb
 /Users/paul/Projects/Sokoban/Sokoban/bin/DesktopGL/AnyCPU/Debug/Content/Sound/Level Music/level3.ogg
 /Users/paul/Projects/Sokoban/Sokoban/bin/DesktopGL/AnyCPU/Debug/Content/Sound/Level Music/level3.xnb
+/Users/paul/Projects/Sokoban/Sokoban/bin/DesktopGL/AnyCPU/Debug/Content/Images/tv.xnb

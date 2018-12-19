@@ -1,11 +1,15 @@
 ﻿using System;
+using Microsoft.Xna.Framework.Graphics;
+
 namespace Sokoban.Architecture
 {
     public class Box : IGameObject
     {
         public bool Moveable => true;
 
-        public string ImageFileName => "box";
+        public string DefaultImageFileName => "box";
+
+        public Texture2D Texture { get; set; }
 
         public GameActionResult Move(Offset offset)
         {

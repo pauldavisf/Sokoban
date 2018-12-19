@@ -40,10 +40,8 @@ namespace Sokoban.Architecture
             {
                 return null;
             }
-            else
-            {
-                return levels[currentLevelIndex];
-            }
+
+            return levels[currentLevelIndex];
         }
 
         private Level ParseBaseInformation(string[] lines, int index)
@@ -65,8 +63,9 @@ namespace Sokoban.Architecture
         {
             var linesForMap = new List<string>();
 
-            for (int i = index; i < lines.Length - 1; i++)
+            for (int i = index; i < lines.Length; i++)
             {
+                var line = lines[i];
                 if (lines[i].Length == 0)
                 {
                     break;

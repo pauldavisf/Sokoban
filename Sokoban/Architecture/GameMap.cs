@@ -74,9 +74,9 @@ namespace Sokoban.Architecture
                         objectivesMap[x, y] = gameObjects[x, y] as Objective;
                     }
 
-                    if (!ImageFileNames.Contains(gameObjects[x, y].ImageFileName))
+                    if (!ImageFileNames.Contains(gameObjects[x, y].DefaultImageFileName))
                     {
-                        ImageFileNames.Add(gameObjects[x, y].ImageFileName);
+                        ImageFileNames.Add(gameObjects[x, y].DefaultImageFileName);
                     }
                 }
             }

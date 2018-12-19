@@ -10,11 +10,24 @@ namespace Sokoban.Desktop
     {
         private GameWindow window;
         private SpriteBatch spriteBatch;
+        private Texture2D frame;
 
-        public Drawer(GameWindow window, SpriteBatch spriteBatch)
+        public Drawer(GameWindow window, SpriteBatch spriteBatch, Texture2D frame)
         {
             this.spriteBatch = spriteBatch;
             this.window = window;
+            this.frame = frame;
+        }
+
+        public void DrawFrame()
+        {
+
+            spriteBatch.Draw(frame,
+                             new Rectangle(0, 
+                                           0,
+                                           window.ClientBounds.Width,
+                                           window.ClientBounds.Height),
+                             Color.White);
         }
 
         public void DrawMap(IGameMap gameMap, 
@@ -25,19 +38,24 @@ namespace Sokoban.Desktop
             {
                 for (int y = 0; y < gameMap.Height; y++)
                 {
-                    spriteBatch.Draw(texturesDectionary[gameMap[x, y].ImageFileName],
-                                     new Rectangle(x + x * Config.CellSize,
-                                                   y + y * Config.CellSize,
-                                                   Config.CellSize,
-                                                   Config.CellSize),
-                                     blur ? Color.White : Color.CornflowerBlue);
+                    if (gameMap[x, y].DefaultImageFileName != null)
+                    {
+                                spriteBatch.Draw(texturesDectionary[gameMap[x, y].DefaultImageFileName],
+                                                new Rectangle(x + x * Config.CellSize,
+                                                       y + y * Config.CellSize,
+                                                       Config.CellSize,
+                                                       Config.CellSize),
+                                                blur ? Color.White : Color.CornflowerBlue);
+                    }
                 }
             }
+
+            DrawFrame();
         }
 
         public void DrawMenu(IGameMenu gameMenu)
         {
-            int y = 0;
+            int y = 50;
             foreach (var menuItem in gameMenu)
             {
                 var item = menuItem as MenuItem;
@@ -49,6 +67,8 @@ namespace Sokoban.Desktop
                                                Color.White);
                 y += item.CurrentTexture.Height;
             }
+
+            DrawFrame();
         }
     }
 }
