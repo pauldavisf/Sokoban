@@ -123,8 +123,10 @@ namespace Sokoban.Desktop
                 CurrentState = GameState.State.Playing
             };
 
-            graphics.PreferredBackBufferWidth = gameMap.Width * Config.CellSize;
-            graphics.PreferredBackBufferHeight = gameMap.Height * Config.CellSize;
+            graphics.PreferredBackBufferWidth = gameMap.Width * Config.CellSize 
+                                                + Constants.FrameOffset * 2;
+            graphics.PreferredBackBufferHeight = gameMap.Height * Config.CellSize
+                                                 + Constants.FrameOffset * 2;
             graphics.ApplyChanges();
 
             previousState = Keyboard.GetState();

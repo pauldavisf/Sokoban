@@ -8,6 +8,8 @@
         public const char Objective = 'o';
         public const char Empty = ' ';
 
+        public const int FrameOffset = 35;
+
         public static string DefaultLevelMap = "   ttttt\n" +
         	                          "tttttt  \n" +
         	                          "bttttttt\n" +

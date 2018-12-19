@@ -41,8 +41,8 @@ namespace Sokoban.Desktop
                     if (gameMap[x, y].DefaultImageFileName != null)
                     {
                                 spriteBatch.Draw(texturesDectionary[gameMap[x, y].DefaultImageFileName],
-                                                new Rectangle(x + x * Config.CellSize,
-                                                       y + y * Config.CellSize,
+                                                new Rectangle(x + x * Config.CellSize + Constants.FrameOffset,
+                                                       y + y * Config.CellSize + Constants.FrameOffset,
                                                        Config.CellSize,
                                                        Config.CellSize),
                                                 blur ? Color.White : Color.CornflowerBlue);
