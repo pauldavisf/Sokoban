@@ -8,7 +8,9 @@ namespace Sokoban.Architecture
         public static string LevelsFileName { get; private set; }
         public static int CellSize { get; private set; }
 
-        private const int defaultCellSize = 25;
+        private const int DefaultCellSize = 80;
+
+        public const int DefaultFrameOffset = 35;
 
         static Config()
         {
@@ -19,7 +21,7 @@ namespace Sokoban.Architecture
         {
             if (!File.Exists(fileName))
             {
-                CellSize = defaultCellSize;
+                CellSize = DefaultCellSize;
                 LevelsFileName = null;
                 return;
             }

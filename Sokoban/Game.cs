@@ -22,6 +22,8 @@ namespace Sokoban.Desktop
         private KeyboardState previousState;
         private GameState gameState;
 
+        private SpriteFont spriteFont;
+
         private IGameMenu mainMenu;
         private IGameMenu scoresMenu;
         private IGameMenu nextLevelMenu;
@@ -124,9 +126,9 @@ namespace Sokoban.Desktop
             };
 
             graphics.PreferredBackBufferWidth = gameMap.Width * Config.CellSize 
-                                                + Constants.FrameOffset * 2;
+                                                + Config.DefaultFrameOffset * 2;
             graphics.PreferredBackBufferHeight = gameMap.Height * Config.CellSize
-                                                 + Constants.FrameOffset * 2;
+                                                 + Config.DefaultFrameOffset * 2;
             graphics.ApplyChanges();
 
             previousState = Keyboard.GetState();
@@ -167,6 +169,8 @@ namespace Sokoban.Desktop
 
             var frame = Content.Load<Texture2D>("Images/tv");
             drawer = new Drawer(Window, spriteBatch, frame);
+
+            spriteFont = Content.Load<SpriteFont>("Fonts/Score");
 
             LoadMenuTextures();
             InitGameMenus();
@@ -222,6 +226,7 @@ namespace Sokoban.Desktop
                 if (actionResult != null)
                 {
                     gameState.RemainingObjectives -= actionResult.ObjectivesDelta;
+                    gameState.Steps++;
 
                     if (gameState.RemainingObjectives == 0)
                     {
@@ -258,19 +263,23 @@ namespace Sokoban.Desktop
                 {
                     LoadLevel(Constants.DefaultLevel);
                 }
-
-                gameState.Scores = (int)(Constants.DefaultScoresForObjective * gameMap.ObjectivesCount *
-                                   currentLevel.ScoresMultiplier / (gameTime.TotalGameTime.TotalSeconds / 30));
-
-                currentLevel = levelBox.NextLevel();
-
-                if (currentLevel == null)
-                {
-                    gameState.CurrentState = GameState.State.GameEnd;
-                }
                 else
                 {
-                    LoadLevel(currentLevel);
+
+                    gameState.Scores = (int)(Constants.DefaultScoresForObjective * gameMap.ObjectivesCount *
+                                       currentLevel.ScoresMultiplier /
+                                        ((gameState.Steps * gameTime.TotalGameTime.TotalSeconds) / 30));
+
+                    currentLevel = levelBox.NextLevel();
+
+                    if (currentLevel == null)
+                    {
+                        gameState.CurrentState = GameState.State.GameEnd;
+                    }
+                    else
+                    {
+                        LoadLevel(currentLevel);
+                    }
                 }
             }
             else if (gameState.CurrentState == GameState.State.GameEnd)
@@ -291,11 +300,12 @@ namespace Sokoban.Desktop
         {
             GraphicsDevice.Clear(Color.DarkViolet);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
             if (gameState.CurrentState == GameState.State.Playing)
             {
                 drawer.DrawMap(gameMap, gameObjectTextures, true);
+                drawer.DrawLevelLabel(currentLevel.Label, spriteFont);
             }
             else if (gameState.CurrentState == GameState.State.Paused)
             {

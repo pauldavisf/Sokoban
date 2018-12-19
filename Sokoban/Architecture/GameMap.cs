@@ -101,6 +101,8 @@ namespace Sokoban.Architecture
             gameObjects = new IGameObject[Width, Height];
             objectivesMap = new Objective[Width, Height];
 
+            StringRepresentation = lines;
+
             LoadFromStrings(lines);
         }
 

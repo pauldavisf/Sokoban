@@ -8,14 +8,12 @@
         public const char Objective = 'o';
         public const char Empty = ' ';
 
-        public const int FrameOffset = 35;
-
         public static string DefaultLevelMap = "   ttttt\n" +
-        	                          "tttttt  \n" +
-        	                          "bttttttt\n" +
-        	                          "ttbbt tt\n" +
-        	                          "tttttott\n" +
-        	                          "  tottpt";
+        	                                   "tttttt  \n" +
+        	                                   "bttttttt\n" +
+        	                                   "ttbbt tt\n" +
+        	                                   "tttttott\n" +
+        	                                   "  tottpt";
 
         public static Level DefaultLevel = new Level("Demo mode!", 1, null, new GameMap(DefaultLevelMap));
         public static int DefaultScoresForObjective = 100;

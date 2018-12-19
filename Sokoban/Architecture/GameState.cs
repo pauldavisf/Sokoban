@@ -14,6 +14,7 @@
         public int Scores;
         public State CurrentState;
         public int RemainingObjectives;
+        public int Steps;
 
         public GameState()
         {

@@ -8,6 +8,7 @@ namespace Sokoban.Desktop
     public interface IDrawer
     {
         void DrawMenu(IGameMenu gameMenu);
+        void DrawLevelLabel(string label, SpriteFont spriteFont);
         void DrawMap(IGameMap gameMap, Dictionary<string,
                      Texture2D> texturesDectionary,
                      bool blur);

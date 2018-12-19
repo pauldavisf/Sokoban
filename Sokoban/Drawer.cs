@@ -19,6 +19,17 @@ namespace Sokoban.Desktop
             this.frame = frame;
         }
 
+        public void DrawLevelLabel(string label, SpriteFont spriteFont)
+        {
+            var color = new Color(255, 255, 133, 150);
+            spriteBatch.DrawString(spriteFont,
+                                   label, 
+                                   new Vector2(window.ClientBounds.Width / 2 - 
+                                               spriteFont.MeasureString(label).Length() / 2,
+                                               Config.DefaultFrameOffset),
+                                   color);
+        }
+
         public void DrawFrame()
         {
 
@@ -41,8 +52,8 @@ namespace Sokoban.Desktop
                     if (gameMap[x, y].DefaultImageFileName != null)
                     {
                                 spriteBatch.Draw(texturesDectionary[gameMap[x, y].DefaultImageFileName],
-                                                new Rectangle(x + x * Config.CellSize + Constants.FrameOffset,
-                                                       y + y * Config.CellSize + Constants.FrameOffset,
+                                                new Rectangle(x + x * Config.CellSize + Config.DefaultFrameOffset,
+                                                       y + y * Config.CellSize + Config.DefaultFrameOffset,
                                                        Config.CellSize,
                                                        Config.CellSize),
                                                 blur ? Color.White : Color.CornflowerBlue);
