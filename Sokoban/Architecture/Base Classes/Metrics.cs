@@ -5,8 +5,8 @@ namespace Sokoban.Architecture
 {
     public class Metrics
     {
-        public List<int> HighSores { get; private set; }
-        public string PlayerName { get; set; }
+        public Dictionary<Level,List<int>> HighSores { get; private set; }
+        public Dictionary<Level, int> steps { get; set; }
 
         public Metrics()
         {

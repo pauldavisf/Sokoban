@@ -43,7 +43,7 @@ namespace Sokoban.Architecture
 
             set
             {
-                isActive = !isActive;
+                isActive = value;
                 if (isActive)
                 {
                     ChangeTextureType(TextureType.Default);

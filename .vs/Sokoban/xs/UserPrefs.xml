@@ -1,19 +1,10 @@
 ﻿<Properties StartupConfiguration="{905B6B3B-33B1-49FB-B691-AE30F88CB4F5}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Sokoban/Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Sokoban/Game.cs">
     <Files>
-      <File FileName="Sokoban/Architecture/KeyboardHandler.cs" Line="1" Column="1" />
-      <File FileName="Sokoban/Game.cs" Line="152" Column="46" />
-      <File FileName="Sokoban/Drawer.cs" Line="24" Column="53" />
-      <File FileName="Sokoban/Architecture/Constants.cs" Line="20" Column="50" />
-      <File FileName="Sokoban/IDrawer.cs" Line="11" Column="9" />
-      <File FileName="Sokoban/Content/Fonts/Score.spritefont" Line="1" Column="1" />
-      <File FileName="../../../../Library/Frameworks/Mono.framework/External/xbuild/MonoGame/v3.0/MonoGame.Content.Builder.targets" Line="84" Column="5" />
-      <File FileName="Sokoban/Architecture/GameState.cs" Line="17" Column="26" />
-      <File FileName="Sokoban/Architecture/GameMap.cs" Line="98" Column="51" />
-      <File FileName="Sokoban/Architecture/Config.cs" Line="1" Column="1" />
-      <File FileName="Sokoban/Architecture/Level.cs" Line="11" Column="88" />
-      <File FileName="Sokoban/Architecture/IGameMap.cs" Line="7" Column="22" />
-      <File FileName="Sokoban/Program.cs" Line="17" Column="1" />
+      <File FileName="Sokoban/Architecture/LevelBox.cs" Line="1" Column="1" />
+      <File FileName="Sokoban/Architecture/GameObjectCreator.cs" Line="1" Column="1" />
+      <File FileName="Sokoban/Architecture/ValidationHelper.cs" Line="32" Column="1" />
+      <File FileName="Sokoban/Game.cs" Line="123" Column="63" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.Sokoban.Desktop PreferredExecutionTarget="MonoDevelop.Default" />

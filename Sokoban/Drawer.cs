@@ -19,13 +19,12 @@ namespace Sokoban.Desktop
             this.frame = frame;
         }
 
-        public void DrawLevelLabel(string label, SpriteFont spriteFont)
+        public void DrawTextAtCenter(string text, SpriteFont spriteFont, Color color)
         {
-            var color = new Color(255, 255, 133, 150);
             spriteBatch.DrawString(spriteFont,
-                                   label, 
+                                   text,
                                    new Vector2(window.ClientBounds.Width / 2 - 
-                                               spriteFont.MeasureString(label).Length() / 2,
+                                               spriteFont.MeasureString(text).Length() / 2,
                                                Config.DefaultFrameOffset),
                                    color);
         }

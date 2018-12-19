@@ -36,7 +36,7 @@
             }
         }
 
-        private GameActionResult Move(int sourceX, int sourceY, Offset offset)
+        public GameActionResult MoveObject(int sourceX, int sourceY, Offset offset)
         {
             ValidationHelper.ValidateCoordinates(gameMap, sourceX, sourceY, true);
 
@@ -81,13 +81,13 @@
 
             if (endPointObject is Box)
             {
-                var boxMoveResult = Move(endX, endY, offset);
-                var playerMoveResult = Move(playerCoordinates.X, playerCoordinates.Y, offset);
+                var boxMoveResult = MoveObject(endX, endY, offset);
+                var playerMoveResult = MoveObject(playerCoordinates.X, playerCoordinates.Y, offset);
 
                 return boxMoveResult;
             }
 
-            return Move(playerCoordinates.X, playerCoordinates.Y, offset);
+            return MoveObject(playerCoordinates.X, playerCoordinates.Y, offset);
         }
     }
 }
